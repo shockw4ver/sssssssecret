@@ -22,6 +22,12 @@ const DropHere = styled.div`
 
 export function Uploader() {
   const [loading, setLoading] = useState(false);
+  const [resultMessage, setResultMessage] = useState(false);
+
+  function handleClose() {
+    setResultMessage('')
+  }
+
   const handleDrop = useCallback(
     files => {
       setLoading(true);
@@ -29,19 +35,19 @@ export function Uploader() {
       put2Qiniu(
         files[0],
         res => {
-          console.log(res);
           setLoading(false);
+          setResultMessage('Now I know you were so dirty...')
         },
         error => {
-          console.log(error);
-          setLoading(false);
+          console.error(error);
+          setResultMessage('It doesn\'t make sense...')
         }
       );
     },
     [setLoading]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop: handleDrop
   });
 
@@ -58,7 +64,13 @@ export function Uploader() {
         {loading ? <Loading /> : "+"}
       </DropHere>
 
-      <Modal />
+      {resultMessage && (
+        <Modal onClose={handleClose}>
+          <h2>Ok I got ya...</h2>
+          <p>{ resultMessage }</p>
+          <p>Wubba lubba dub dub!</p>
+        </Modal>
+      )}
     </>
   );
 }

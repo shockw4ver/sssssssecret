@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Frame } from "arwes";
 import styled from "styled-components";
 
@@ -19,27 +19,52 @@ const Wrapper = styled.div`
   margin: auto;
   height: 200px;
   width: 500px;
-  animation: spread 1000ms ease;
-  animation-delay: 1000ms;
+  animation: ${props => props.spread ? 'spread 1000ms ease' : 'collapsed 800ms ease'};
 
   @keyframes spread {
     from {
+      overflow: hidden;
       height: 0;
     }
     to {
+      overflow: visible;
       height: 500px;
+    }
+  }
+
+  @keyframes collapsed {
+    from {
+      overflow: hidden;
+      height: 500px;
+    }
+    to {
+      height: 0;
     }
   }
 `;
 
-export function Modal() {
+export function Modal({
+  children,
+  type = 'success',
+  onClose
+}) {
+  const [spread, setSpread] = useState(true)
+
+  function handleCurtainClick() {
+    setSpread(false)
+  }
+
+  function handleTransEnd() {
+    if (!spread) {
+      onClose()
+    }
+  }
+
   return (
-    <Curtain>
-      <Wrapper>
-        <Frame show={true} animate={true} level={3} corners={4} layer="primary">
-          <h2>Ok</h2>
-          <p>Now I know you were so dirty...</p>
-          <p>Wubba lubba dub dub</p>
+    <Curtain onClick={handleCurtainClick}>
+      <Wrapper spread={spread} onTransitionEnd={handleTransEnd}>
+        <Frame show={spread} animate={true} level={3} corners={4} layer={type}>
+          { children }
         </Frame>
       </Wrapper>
     </Curtain>
