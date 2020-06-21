@@ -22,6 +22,7 @@ const DropHere = styled.div`
 
 export function Uploader() {
   const [loading, setLoading] = useState(false);
+  const [code, setCode] = useState('');
   const [resultMessage, setResultMessage] = useState(false);
 
   function handleClose() {
@@ -36,11 +37,15 @@ export function Uploader() {
         files[0],
         res => {
           setLoading(false);
-          setResultMessage('Now I know you were so dirty...')
+          setResultMessage('Now I know you were so dirty...');
+          if (res) {
+            setCode(`Get your secret code: ${res.key}`)
+          }
         },
         error => {
           console.error(error);
           setResultMessage('It doesn\'t make sense...')
+          setCode(`You dirty jerk! ${error}`)
         }
       );
     },
@@ -71,6 +76,10 @@ export function Uploader() {
           <p>Wubba lubba dub dub!</p>
         </Modal>
       )}
+
+      <Words animate layer="">
+        { code }
+      </Words>
     </>
   );
 }
