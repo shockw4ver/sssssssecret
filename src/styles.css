@@ -1,4 +1,35 @@
 .App {
   font-family: sans-serif;
-  text-align: center;
+}
+
+
+@keyframes spread {
+  from {
+    overflow: hidden;
+    height: 0;
+  }
+  to {
+    overflow: visible;
+    height: 500px;
+  }
+}
+
+@keyframes collapsed {
+  from {
+    overflow: hidden;
+    height: 500px;
+  }
+  to {
+    height: 0;
+  }
+}
+
+@keyframes stretch {
+  from {
+    transform: scale(0,0);
+  }
+
+  to {
+    transform: scale(1, 1);
+  }
 }

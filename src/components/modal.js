@@ -6,6 +6,7 @@ const Curtain = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 9999;
   height: 100%;
   width: 100%;
   background-color: rgba(0,0,0,.3);
@@ -19,34 +20,13 @@ const Wrapper = styled.div`
   margin: auto;
   height: 200px;
   width: 500px;
-  animation: ${props => props.spread ? 'spread 1000ms ease' : 'collapsed 800ms ease'};
-
-  @keyframes spread {
-    from {
-      overflow: hidden;
-      height: 0;
-    }
-    to {
-      overflow: visible;
-      height: 500px;
-    }
-  }
-
-  @keyframes collapsed {
-    from {
-      overflow: hidden;
-      height: 500px;
-    }
-    to {
-      height: 0;
-    }
-  }
+  animation: ${props => props.spread ? 'spread 1000ms ease' : 'collapsed 800ms ease'}; /* in src/styles.css */
 `;
 
 export function Modal({
   children,
   type = 'success',
-  onClose
+  onClose = () => {}
 }) {
   const [spread, setSpread] = useState(true)
 

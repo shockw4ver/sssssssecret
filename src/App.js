@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import "./styles.css";
-import { createTheme, ThemeProvider, Arwes } from "arwes";
+import React, { useState } from "react"
+import "./styles.css"
+import { createTheme, ThemeProvider, Arwes } from "arwes"
 
-import { Uploader } from "./components/uploader";
-import { Entry } from './components/entry';
+import AppRouter from './router'
+import { Entry } from './components/entry'
 
 export default function App() {
-  const [authed, setAuthStatus] = useState(false)
+  const [authed, setAuthStatus] = useState(true)
 
   function handlePass() {
     setAuthStatus(true)
@@ -16,11 +16,13 @@ export default function App() {
     <ThemeProvider theme={createTheme()}>
       <Arwes className="App">
         {authed ? (
-          <Uploader />
+          <>
+            <AppRouter />
+          </>
         ) : (
           <Entry onPass={handlePass} />
         )}
       </Arwes>
     </ThemeProvider>
-  );
+  )
 }
